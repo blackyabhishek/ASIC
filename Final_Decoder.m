@@ -1,10 +1,10 @@
 Image_height=256;
 Image_width=256;
 
-input_bits = csvread('OB_all.txt',175568,0);
-vid=imread('11.jpg');
+input_bits = csvread('OB.txt');
+vid=imread('15s.bmp');
 
-q = size(input_bits')
+q = size(input_bits');
 length = q(2);
 A0 = 0;
 N = 0;
@@ -28,28 +28,28 @@ counter2 = 0;
 % parameter is the number of input bits to the encoder
 % i is number of bits read
 while (i<=length)
-    if(counter2 ==0 || counter2==1 || counter2==2)
+    if(counter2 ==0 | counter2==1 | counter2==2)
         A0 = AY;
         N = NY;
         YUV = 1;
         counter2 = counter2+1;
     else
-        if(counter == 0 || counter== 1 || counter == 2 || counter==3)
-            A0 = AY;
-            N = NY;
-            YUV = 1;
-        elseif(counter == 4)
-            A0 = AU;
-            N = NU;
-            YUV = 2;
-        else
-            A0 = AV;
-            N = NV;
-            YUV = 3;
-        end
-        counter = mod((counter + 1),6);
+   
+    if(counter == 0 | counter== 1 | counter == 2 | counter==3)
+        A0 = AY;
+        N = NY;
+        YUV = 1;
+    elseif(counter == 4)
+        A0 = AU;
+        N = NU;
+        YUV = 2;
+    else
+        A0 = AV;
+        N = NV;
+        YUV = 3;
     end
-    
+    counter = mod((counter + 1),6);
+    end
     if(N ==0 || A0==0)
         k=0;
     else
@@ -227,8 +227,8 @@ end
         error = 0.0;
         for i = 1:3
             for j=1:Image_height
-                 for k=1:Image_width                     
-                     if((j+k>76) && (j+k<438) && (j-k>-181) && (j-k<181))
+                 for k=1:Image_width
+                     if((i+j>76) && (i+j<438) && (i-j>-181) && (i-j<181))
                         error = error + double(int16(I1(j,k,i)) - int16(I2(j,k,i)))*double(int16(I1(j,k,i))-int16(I2(j,k,i)));
                      end
                  end
